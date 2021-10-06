@@ -6,14 +6,14 @@ namespace Tic_Tac_Toe
 {
     class Game
     {
-        public static bool GameOver = false;
+        private static bool _gameOver = false;
         private Board _gameBoard;
 
         public void Run()
         {
             Start();
 
-            while (!GameOver)
+            while (!_gameOver)
             {
                 Draw();
                 Update();
@@ -119,6 +119,11 @@ namespace Tic_Tac_Toe
             }
 
             return inputRecieved;
+        }
+
+        public static void EndApplication()
+        {
+            _gameOver = true;
         }
     }
 }

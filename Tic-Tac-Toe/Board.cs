@@ -33,22 +33,13 @@ namespace Tic_Tac_Toe
             {
                 Console.WriteLine("It's a tie!");
 
-                int tieChoice = Game.GetInput("Would you like to play again?", "Yes", "No");
-                switch (tieChoice)
-                {
-                    case 0:
-                        ClearBoard();
-                        _currentTurn = 0;
-                        return;
-                    case 1:
-                        Game.GameOver = true;
-                        return;
-                }
+                RestartMenu();
+                return;
             }
 
             int choice = Game.GetInput() - 1;
 
-            if(choice <= -1 || choice >= 9 || !SetToken(_currentToken, choice / 3, choice % 3))
+            if(choice < 0 || choice > 8 || !SetToken(_currentToken, choice / 3, choice % 3))
             {
                 Console.WriteLine("You cannot place your token there.");
                 Console.ReadKey(true);
@@ -57,17 +48,8 @@ namespace Tic_Tac_Toe
 
             if (CheckWinner(_currentToken))
             {
-                choice = Game.GetInput("Would you like to play again?", "Yes", "No");
-                switch (choice)
-                {
-                    case 0:
-                        ClearBoard();
-                        _currentTurn = 0;
-                        return;
-                    case 1:
-                        Game.GameOver = true;
-                        return;
-                }
+                RestartMenu();
+                return;
             }
 
             if (_currentToken == _player1Token)
@@ -87,6 +69,7 @@ namespace Tic_Tac_Toe
         /// </summary>
         public void Draw()
         {
+            Console.WriteLine("It is " + _currentToken + " player's turn.\n");
             Console.WriteLine(_board[0, 0] + " | " + _board[0, 1] + " | " + _board[0, 2] + "\n" +
                                  "_________ \n" +
                               _board[1, 0] + " | " + _board[1, 1] + " | " + _board[1, 2] + "\n" +
@@ -198,6 +181,21 @@ namespace Tic_Tac_Toe
                     _board[i, j] = Convert.ToChar(positionNumber);
                     positionNumber++;
                 }
+            }
+        }
+
+        private void RestartMenu()
+        {
+            int choice = Game.GetInput("Would you like to play again?", "Yes", "No");
+            switch (choice)
+            {
+                case 0:
+                    ClearBoard();
+                    _currentTurn = 0;
+                    return;
+                case 1:
+                    Game.EndApplication();
+                    return;
             }
         }
     }
