@@ -113,45 +113,12 @@ namespace Tic_Tac_Toe
         /// <returns> Returns if there is a winner or not. </returns>
         private bool CheckWinner(char token)
         {
+            int matchCount = 0;
+
             Console.Clear();
             Draw();
-            if (_board[0, 0] == token && _board[1, 0] == token && _board[2, 0] == token)
-            {
-                Console.WriteLine("Winner is " + token + " player!");
-                Console.ReadKey(true);
-                return true;
-            }
-            else if(_board[0, 1] == token && _board[1, 1] == token && _board[2, 1] == token)
-            {
-                Console.WriteLine("Winner is " + token + " player!");
-                Console.ReadKey(true);
-                return true;
-            }
-            else if (_board[0, 2] == token && _board[1, 2] == token && _board[2, 2] == token)
-            {
-                Console.WriteLine("Winner is " + token + " player!");
-                Console.ReadKey(true);
-                return true;
-            }
-            else if (_board[0, 0] == token && _board[0, 1] == token && _board[0, 2] == token)
-            {
-                Console.WriteLine("Winner is " + token + " player!");
-                Console.ReadKey(true);
-                return true;
-            }
-            else if (_board[1, 0] == token && _board[1, 1] == token && _board[1, 2] == token)
-            {
-                Console.WriteLine("Winner is " + token + " player!");
-                Console.ReadKey(true);
-                return true;
-            }
-            else if (_board[2, 0] == token && _board[2, 1] == token && _board[2, 2] == token)
-            {
-                Console.WriteLine("Winner is " + token + " player!");
-                Console.ReadKey(true);
-                return true;
-            }
-            else if (_board[0, 0] == token && _board[1, 1] == token && _board[2, 2] == token)
+            // Checks the diagonals for a possible win.
+            if (_board[0, 0] == token && _board[1, 1] == token && _board[2, 2] == token)
             {
                 Console.WriteLine("Winner is " + token + " player!");
                 Console.ReadKey(true);
@@ -162,6 +129,60 @@ namespace Tic_Tac_Toe
                 Console.WriteLine("Winner is " + token + " player!");
                 Console.ReadKey(true);
                 return true;
+            }
+
+            // Checks the horizontal rows for a possible win.
+            for(int i = 0; i < _board.GetLength(0); i++)
+            {
+                for(int j = 0; j < _board.GetLength(1); j++)
+                {
+                    if(_board[i, j] == token)
+                    {
+                        matchCount += 1;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                if(matchCount >= 3)
+                {
+                    Console.WriteLine("Winner is " + token + " player!");
+                    Console.ReadKey(true);
+                    return true;
+                }
+                else
+                {
+                    matchCount = 0;
+                }
+            }
+
+            // Checks the vertical columns for a possible win.
+            for (int i = 0; i < _board.GetLength(0); i++)
+            {
+                for (int j = 0; j < _board.GetLength(1); j++)
+                {
+                    if (_board[j, i] == token)
+                    {
+                        matchCount += 1;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                if (matchCount >= 3)
+                {
+                    Console.WriteLine("Winner is " + token + " player!");
+                    Console.ReadKey(true);
+                    return true;
+                }
+                else
+                {
+                    matchCount = 0;
+                }
             }
 
             return false;
