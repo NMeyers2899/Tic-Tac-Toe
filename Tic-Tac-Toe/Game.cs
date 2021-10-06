@@ -6,14 +6,14 @@ namespace Tic_Tac_Toe
 {
     class Game
     {
-        private bool _gameOver = false;
+        public static bool GameOver = false;
         private Board _gameBoard;
 
         public void Run()
         {
             Start();
 
-            while (!_gameOver)
+            while (!GameOver)
             {
                 Draw();
                 Update();
@@ -56,31 +56,6 @@ namespace Tic_Tac_Toe
             _gameBoard.End();
         }
 
-        /// <summary>
-        /// Assigns the spot at the given indices in the board array to the given token.
-        /// </summary>
-        /// <param name="token"> The token being placed at the indices. </param>
-        /// <param name="posX"> The x position of the token's placement. </param>
-        /// <param name="posY"> The y position of the token's placement. </param>
-        /// <returns> Return false if the indices is out of range. </returns>
-        public bool SetToken(char token, int posX, int posY)
-        {
-            
-
-            return false;
-        }
-
-        /// <summary>
-        /// Checks to see if there are three tokens of the same type in a line. Assigns the winner based on which 
-        /// token won.
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        private bool CheckWinner(char token)
-        {
-            return false;
-        }
-
         public static int GetInput()
         {
             int choice = -1;
@@ -91,6 +66,59 @@ namespace Tic_Tac_Toe
             }
 
             return choice;
+        }
+
+        /// <summary>
+        /// Gets an input from the player based on some given decision.
+        /// </summary>
+        /// <param name="description"> The context for the input </param>
+        /// <param name="options"> The options given to the player. </param>
+        /// <returns> The users input of a given choice. </returns>
+        public static int GetInput(string description, params string[] options)
+        {
+            string input = "";
+            int inputRecieved = -1;
+
+            while (inputRecieved == -1)
+            {
+                // Print out all options.
+                Console.WriteLine(description);
+                for (int i = 0; i < options.Length; i++)
+                {
+                    Console.WriteLine((i + 1) + ". " + options[i]);
+                }
+                Console.Write("> ");
+
+                input = Console.ReadLine();
+
+                // If a player typed an int...
+                if (int.TryParse(input, out inputRecieved))
+                {
+                    // ...decrement the input and check if it's within bounds of the array.
+                    inputRecieved--;
+                    if (inputRecieved < 0 || inputRecieved >= options.Length)
+                    {
+                        // Sets inputRecieved to the default value.
+                        inputRecieved = -1;
+                        //Display error message.
+                        Console.WriteLine("Invalid Input");
+                        Console.ReadKey(true);
+                    }
+                }
+                // If the user didn't type an int.
+                else
+                {
+                    // Sets inputRecieved to the default value.
+                    inputRecieved = -1;
+                    //Display error message.
+                    Console.WriteLine("Invalid Input");
+                    Console.ReadKey(true);
+                }
+
+                Console.Clear();
+            }
+
+            return inputRecieved;
         }
     }
 }
